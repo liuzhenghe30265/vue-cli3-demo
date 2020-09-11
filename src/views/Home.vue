@@ -1,18 +1,41 @@
 <template>
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <button
+            @click="showFun">show</button>
+    <fade :type="'fade'">
+      <div class="box"
+           v-if="this.show"></div>
+    </fade>
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
+
+import fade from "@/components/TransitionComponent";
 
 export default {
   name: 'home',
   components: {
-    HelloWorld
-  }
+    fade
+  },
+  data() {
+    return {
+      show: false
+    }
+  },
+  methods: {
+    showFun() {
+      this.show = this.show === true ? false : true
+    }
+  },
+
 }
 </script>
+
+<style>
+.box {
+  width: 200px;
+  height: 200px;
+  background: #ccc;
+}
+</style>
