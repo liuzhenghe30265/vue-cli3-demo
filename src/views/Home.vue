@@ -1,31 +1,38 @@
 <template>
   <div class="home">
-    <button
-            @click="showFun">show</button>
-    <fade :type="'fade'">
-      <div class="box"
-           v-if="this.show"></div>
-    </fade>
+    <h1 ref="demo"
+        class="demo"
+        style="border:1px solid #dedede">
+      Hello!</h1>
+    <img :src="picUrl"
+         alt="">
   </div>
 </template>
 
 <script>
-
-import fade from "@/components/TransitionComponent";
-
+import html2canvas from 'html2canvas'
 export default {
   name: 'home',
-  components: {
-    fade
-  },
   data() {
     return {
-      show: false
+      picUrl: ''
     }
   },
+  mounted() {
+    this.makePictureFun()
+  },
   methods: {
-    showFun() {
-      this.show = this.show === true ? false : true
+    makePictureFun() {
+      this.$nextTick(async () => {
+        const picture = await this.htmlToCanvasFun()
+        this.picUrl = picture
+      })
+    },
+    htmlToCanvasFun() {
+      const DOM = this.$refs.demo
+      return html2canvas(DOM).then(canvas => {
+        return canvas.toDataURL('image/png')
+      })
     }
   },
 
@@ -33,9 +40,4 @@ export default {
 </script>
 
 <style>
-.box {
-  width: 200px;
-  height: 200px;
-  background: #ccc;
-}
 </style>
